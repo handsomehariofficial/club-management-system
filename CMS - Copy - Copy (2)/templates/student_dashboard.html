@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+
+        /* Reusing the home page general styles */
+
+        body {
+
+            background-image: url("{{ url_for('static', filename='pics/bg.jpg') }}");
+            background-size: contain;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            height: 150px;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        #my-clubs {
+            height: 800px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        #my-clubs h2 {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        #my-clubs ul {
+            list-style-type: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #my-clubs ul li {
+            background-color: #e55d51;
+            color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        #my-clubs ul li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #my-clubs center {
+            margin-top: 20px;
+        }
+
+        #my-clubs p {
+            font-size: 16px;
+            color: #00ced1;
+            margin-bottom: 10px;
+        }
+
+        #my-clubs a h2 {
+            color: #e55d51;
+            font-size: 24px;
+            text-decoration: none;
+            font-family: 'Arial', sans-serif;
+            transition: color 0.3s;
+        }
+
+        #my-clubs a h2:hover {
+            color: #00ced1;
+        }
+
+/* Sidebar */
+.sidebar {
+    background: linear-gradient(180deg, #1b0b0b, #2c2c2c);
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Arial', sans-serif;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+/* Sidebar Links */
+.sidebar a {
+    padding: 15px 20px;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #ddd;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+/* Add an icon placeholder for links */
+.sidebar a::before {
+    content: "▶"; /* Replace with an icon using font-awesome or other library */
+    font-size: 1rem;
+    margin-right: 10px;
+    color: #06ff01;
+    transition: color 0.3s;
+}
+
+/* Hover Effects */
+.sidebar a:hover {
+    background-color: #06ff01;
+    color: #111;
+    transform: scale(1.05);
+}
+
+.sidebar a:hover::before {
+    color: #111;
+}
+
+/* Active Link */
+.sidebar a.active {
+    background-color: #06ff01;
+    color: #111;
+    font-weight: bold;
+}
+
+/* Scrollbar Customization */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #06ff01;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #1b0b0b;
+}
+
+
+        /* Main Content */
+        .content {
+            
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: white;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            width: 300px;
+            height: auto;
+            background-color: white;
+            display: inline-block;
+            border: solid;
+            border-color: salmon;
+            border-width: 5px;
+            border-radius: 5%;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 2px 2px 10px grey;
+        }
+
+        ul li span {
+            font-weight: bold;
+            color: #13ff0b;
+        }
+
+        ul li form {
+            margin-top: 10px;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            position: relative;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+        #events {
+        padding: 20px;
+        background: linear-gradient(to right, #1f456b, #329090);
+        border-radius: 10px;
+        color: #fff;
+    }
+
+    #events h3 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    .event-container {
+        width: 90%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Adds space between rows and columns */
+        justify-content: space-between;
+    }
+
+    .event-box {
+        height: 400px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        flex: 0 0 48%; /* Ensures two event boxes per row */
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .event-box h4 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .event-box p {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .event-box img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
+    .event-box button {
+        background: #ff6f61;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .event-box button:hover {
+        background: #e55d51;
+    }
+
+    .event-box .participation-status {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+        .event-box {
+            flex: 0 0 100%; /* Stacks boxes on smaller screens */
+        }
+    }
+    #all-clubs {
+        padding: 20px;
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: #fff;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+
+    #all-clubs h2 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    .club-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .club-card {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        flex: 0 0 48%; /* Two cards per row */
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .club-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .club-card h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: #fff;
+    }
+
+    .club-card p {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #eaeaea;
+    }
+
+    .club-actions {
+        margin-top: 10px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .status.joined {
+        background: #27ae60;
+        color: #fff;
+    }
+
+    .status.pending {
+        background: #f39c12;
+        color: #fff;
+    }
+
+    .join-btn {
+        background: #3498db;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s ease;
+    }
+
+    .join-btn:hover {
+        background: #2980b9;
+    }
+
+    @media (max-width: 768px) {
+        .club-card {
+            flex: 0 0 100%; /* Full width for smaller screens */
+        }
+    }
+    .club-card {
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .card-footer {
+        font-size: 14px;
+        color: #666;
+    }
+
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <a href="#"><i class="fas fa-home"></i> Home</a>
+    <a href="#my-clubs" class="active"><i class="fas fa-users"></i> My Clubs</a>
+    <a href="#events"><i class="fas fa-calendar-alt"></i> Event Announcements</a>
+    <a href="#all-clubs"><i class="fas fa-list"></i> All Clubs</a>
+    <form action="{{ url_for('logout') }}" method="get">
+        <button style="color: aqua; background-color: #1b0b0b; border-radius: 10px;margin-left: 80px;margin-top: 370px;" type="submit" class="logout-btn">Log Out</button>
+    </form>
+</div>
+
+<!-- Add Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script>
+    // Select all sidebar links
+    const sidebarLinks = document.querySelectorAll('.sidebar a'); 
+
+    // Add click event listener to each link
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // Remove 'active' class from all links
+            sidebarLinks.forEach(item => item.classList.remove('active'));
+            // Add 'active' class to the clicked link
+            link.classList.add('active');
+        });
+    });
+</script>
+
+
+    <!-- Main Content -->
+    <div class="content">
+        <header style="margin-left: 370px;height: 1000px;">
+            <center>
+            <h1 style="margin-top: 300px;">Student Dashboard</h1>
+            <div class="welcome-banner" style="text-align: center; margin: 20px; padding: 20px; background-color: #f0f8ff; border-radius: 8px;">
+                <h2 style="color: #333;">Welcome, {{ user.username }}!</h2>
+            </center>
+          
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+        </header>
+
+           
+            
+            <p>Manage your clubs and activities</p>
+
+    <!-- My Clubs Section -->
+    <section id="my-clubs" style="height: 1150px;width: 1150px;margin-left: 20px;">
+        <h2>My Clubs</h2>
+        <div class="container mt-5" style="height: 500px;">
+            <div class="row">
+                {% for club in clubs %}
+                {% if club.id in joined_club_ids %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='uploads/' + club.cover_photo) if club.cover_photo else url_for('static', filename='default_cover.jpg') }}" 
+                            class="card-img-top"
+                            alt="{{ club.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ club.name }}</h5>
+                            <p class="card-text text-muted">Led by: {{ club.leader.username }}</p>
+                            <p class="card-text">{{ club.description[:100] }}...</p>
+                            <!-- Optional: Button to view more details -->
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clubModal{{ club.id }}">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+                <!-- Modal for Club Details -->
+                <div class="modal fade" id="clubModal{{ club.id }}" tabindex="-1" aria-labelledby="clubModalLabel{{ club.id }}" aria-hidden="true" style="height: 600px;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="clubModalLabel{{ club.id }}">{{ club.name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="text-center mb-4">
+                                    <img src="{{ url_for('static', filename='uploads/' + club.cover_photo) if club.cover_photo else url_for('static', filename='default_cover.jpg') }}" 
+                                         class="img-fluid rounded" 
+                                         alt="{{ club.name }}">
+                                </div>
+                                <h5>Leader: {{ club.leader.username }}</h5>
+                                <p>{{ club.description }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="events" style="height: 800px;width: 1150px;margin-left: 300px;">
+            <h3>Club Events</h3>
+            <div class="event-container">
+                {% for event in events %}
+                    {% if event.club_id in joined_club_ids %}
+                        <div class="event-box">
+                            {% if event.photo %}
+                                <img style="height: 100px;width: 100px;" src="{{ url_for('static', filename='uploads/' + event.photo) }}" alt="{{ event.name }}">
+                            {% endif %}
+                            <h4>{{ event.name }}</h4>
+                            <p>{{ event.description }}</p>
+                            <button onclick="participate(this)">Participate</button>
+                            <div class="participation-status" data-participated="false">Not Participated</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+                
+    
+        <script>
+            function participate(button) {
+                const status = button.nextElementSibling;
+                if (status.getAttribute('data-participated') === 'false') {
+                    status.textContent = 'Participated';
+                    status.setAttribute('data-participated', 'true');
+                    button.textContent = 'Participated';
+                    button.style.background = '#4caf50'; // Change button color to green
+                }
+            }
+        </script>
+<!-- All Clubs Section -->
+<section id="all-clubs" style="width: 1150px;margin-left: 300px;">
+    <h2>Available Clubs</h2>
+    <div class="club-container">
+        {% for club in clubs %}
+            <div class="club-card">
+                <h3>{{ club.name }}</h3>
+                <p><strong></strong>{{ club.description }}</p>
+                <div class="club-actions">
+                    {% if club.id in joined_club_ids %}
+                        <span class="status joined">You are a member</span>
+                    {% elif club.id in requested_club_ids %}
+                        <span class="status pending">Request pending</span>
+                    {% else %}
+                        <form method="POST">
+                            <input type="hidden" name="club_id" value="{{ club.id }}">
+                            <button type="submit" class="join-btn">Request to Join</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+    </div>
+</div>
+
+    <footer>
+        <p>&copy; 2025 College Club Management System. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a></p>
+    </footer>
+
+</body>
+</html>

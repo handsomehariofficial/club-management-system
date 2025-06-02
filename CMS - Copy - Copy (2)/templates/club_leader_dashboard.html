@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Leader Dashboard</title>
+    <style>
+        /* General styles for layout and theme */
+        body {
+            background-image: url("{{ url_for('static', filename='pics/ss.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+/* Sidebar styling */
+.sidebar {
+    background: linear-gradient(135deg, #1b0b0b, #333);
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transition: width 0.3s;
+}
+
+.sidebar h2 {
+    color: #06ff01;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    margin: 10px 15px;
+}
+
+.sidebar a i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.sidebar a:hover {
+    background-color: #06ff01;
+    color: #000;
+    transform: translateX(10px);
+}
+
+/* Scrollbar customization */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #06ff01;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #04cc00;
+}
+
+
+        /* Main content */
+        .content {
+            margin-left: 300px;
+            padding: 40px;
+        }
+
+        h2, h3 {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: solid 1px #ddd;
+            border-radius: 5px;
+        }
+
+        form {
+            margin-top: 10px;
+        }
+
+        form input, form textarea, form button {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        form input[type="text"], form textarea {
+            width: 80%;
+            padding: 10px;
+            background-color: lightblue;
+            border: 2px solid #06ff01;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #00ff2a;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00ff11;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+        }
+   
+    .club-card {
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .card-footer {
+        font-size: 14px;
+        color: #666;
+    }
+p{
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Sidebar for navigation -->
+<div class="sidebar">
+    <h2>Club Leader Menu</h2>
+    <a href="#create-event"><i class="fas fa-calendar-plus"></i> Create Event</a>
+    <a href="#club-events"><i class="fas fa-calendar"></i> Club Events</a>
+    <a href="#update-club"><i class="fas fa-edit"></i> Update Club</a>
+    <a href="#pending-requests"><i class="fas fa-users"></i> Pending Join Requests</a>
+    <a href="#members"><i class="fas fa-user-friends"></i> Members</a>
+    <form action="{{ url_for('logout') }}" method="get">
+        <button style="color: aqua; background-color: #1b0b0b; border-radius: 10px;margin-left: 80px;margin-top: 200px;" type="submit" class="logout-btn">Log Out</button>
+    </form>
+</div>
+
+<!-- Add Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+
+    <div class="content">
+        <div class="club-card">
+            <div class="card" style="max-width: 100%; margin: 20px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden;">
+                <!-- Club Cover Photo -->
+                {% if club.cover_photo %}
+                <img 
+                    src="{{ url_for('static', filename='uploads/' + club.cover_photo) }}" 
+                    alt="Club Cover Photo" 
+                    class="card-img-top" 
+                    style="max-height: 300px; object-fit: cover;">
+                {% else %}
+                <div 
+                    style="background-color: #f4f4f4; height: 300px; display: flex; justify-content: center; align-items: center;">
+                    <p style="color: #888;">No Cover Photo</p>
+                </div>
+                {% endif %}
+        
+                <!-- Card Body -->
+                <div class="card-body">
+                    <h2 class="card-title">{{ club.name }}</h2>
+                    <p class="card-text">{{ club.description }}</p>
+                </div>
+        
+                <!-- Club Details -->
+                <div class="card-footer bg-light">
+                    <p><strong>Club Leader:</strong> {{ club.leader.username }}</p>
+                    <p><strong>Number of Events:</strong> {{ club.events|length }}</p>
+                    <p><strong>Members:</strong> {{ club.members|length }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 300px; margin-bottom: 400px;">
+        <header style="width: 60%;margin-left: 200px;">
+            <h1>Welcome to {{ club.name }}</h1>
+        </header>
+        </div>
+
+        <!-- Create Event Section -->
+        <section id="create-event" style="margin-bottom: 500px;">
+            <h3>Create an Event</h3>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="text" name="event_name" placeholder="-------------------------Event Name-------------------------" required>
+                <textarea style="height: 400px;" name="event_description" placeholder="------------Event Description-----------" required></textarea>
+                <input type="file" name="event_photo">
+                <button name="action" value="create_event">Create Event</button>
+            </form>
+        </section>
+
+        <!-- Club Events Section -->
+        <section id="club-events" style="margin-bottom: 700px">
+            <h3>Club Events</h3>
+            <ul>          
+                {% for event in events %}
+                    <li>
+                        <h4>{{ event.name }}</h4>
+                        <p>{{ event.description }}</p>
+                        {% if event.photo %}
+                            <img  src="{{ url_for('static', filename='uploads/' + event.photo) }}" alt="{{ event.name }}">
+                        {% endif %}
+                        <h5>Participants:</h5>
+                        <ul>
+                            {% for participant in event.participants %}
+                                <li>Student ID: {{ participant.student_id }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Update Club Section -->
+        <section id="update-club" style="margin-bottom: 400px;">
+            <div class="update-club-section">
+                <h3>Update Club Information</h3>
+                <form action="{{ url_for('club_leader_dashboard') }}" method="POST" enctype="multipart/form-data">
+                    <!-- Hidden input to identify the action -->
+                    <input type="hidden" name="action" value="update_club">
+            
+                    <!-- Club Name -->
+                    <div class="form-group">
+                        <label for="club_name">Club Name:</label>
+                        <input 
+                            type="text" 
+                            id="club_name" 
+                            name="club_name" 
+                            class="form-control" 
+                            value="{{ club.name }}" 
+                            required>
+                    </div>
+            
+                    <!-- Club Description -->
+                    <div class="form-group">
+                        <label for="club_description">Club Description:</label>
+                        <textarea 
+                        style="height: 150px;"
+                            id="club_description" 
+                            name="club_description" 
+                            class="form-control" 
+                            rows="4" 
+                            required>{{ club.description }}</textarea>
+                    </div>
+            
+                    <!-- Club Cover Photo -->
+                    <div class="form-group">
+                        <label for="cover_photo">Cover Photo:</label>
+                        <input 
+                            type="file" 
+                            id="cover_photo" 
+                            name="cover_photo" 
+                            class="form-control-file">
+                        {% if club.cover_photo %}
+                        <p>Current Photo:---- <img style="height: 200px; width: 200px;border: solid red;" src="{{ url_for('static', filename='uploads/' + club.cover_photo) }}" alt="Club Cover Photo" style="width: 100px;"></p>
+                        {% endif %}
+                    </div>
+            
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Update Club</button>
+                </form>
+            </div>
+            
+        </section>
+
+        <!-- Pending Join Requests Section -->
+        <section id="pending-requests" style="margin-bottom: 700px;">
+            <h3>Pending Join Requests</h3>
+            <ul>
+                {% for request in join_requests %}
+                    <li>
+                        Student ID: {{ request.student_id }}
+                        <form method="POST">
+                            <input type="hidden" name="request_id" value="{{ request.id }}">
+                            <button name="action" value="approve_request">Approve</button>
+                            <button name="action" value="reject_request">Reject</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Members Section -->
+        <section id="members" style="margin-bottom: 600px;">
+            <h3>Members</h3>
+            <ul>
+                {% for member in members %}
+                    <li>
+                        Student ID: {{ member.student_id }}
+                        <form method="POST">
+                            <input type="hidden" name="member_id" value="{{ member.student_id }}">
+                            <button name="action" value="remove_member">Remove</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <div class="event-management">
+            <h2>Manage Club Events</h2>
+        
+            <!-- Loop through events -->
+            {% for event in events %}
+            <div class="event-card">
+                <img src="{{ url_for('static', filename='uploads/default_event_cover.jpg') }}" alt="Event Cover" class="event-cover">
+                <h3>{{ event.name }}</h3>
+                <p>{{ event.description }}</p>
+        
+                <!-- Update Event Form -->
+                <button class="btn btn-primary" onclick="toggleEditForm('{{ event.id }}')">Edit</button>
+                <form method="POST" enctype="multipart/form-data" class="edit-form" id="edit-form-{{ event.id }}" style="display: none;">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <input type="hidden" name="action" value="update">
+                    <input type="text" name="name" value="{{ event.name }}" placeholder="Event Name">
+                    <textarea name="description" placeholder="Event Description">{{ event.description }}</textarea>
+                    <label for="cover_photo_{{ event.id }}">Change Cover Photo:</label>
+                    <input type="file" name="cover_photo" id="cover_photo_{{ event.id }}">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </form>
+        
+                <!-- Delete Event Form -->
+                <form method="POST" onsubmit="return confirm('Are you sure you want to delete this event?')">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <input type="hidden" name="action" value="delete">
+                    <button type="submit" class="btn btn-danger">Delete Event</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <script>
+            function toggleEditForm(eventId) {
+                const form = document.getElementById(`edit-form-${eventId}`);
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            }
+        </script>
+        
+    </div>
+</body>
+</html>

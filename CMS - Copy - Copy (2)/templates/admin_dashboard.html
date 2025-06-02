@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-size: large;
+            display: flex;
+            height: 100vh;
+        }
+/* Sidebar Styles */
+.sidebar {
+    width: 200px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #ffffff;
+    padding: 25px;
+    position: fixed;
+    height: 100%;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+    border-right: 3px solid #ffffff;
+    justify-content: space-between;
+}
+
+.sidebar h2 {
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    padding-bottom: 15px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.sidebar ul li a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.sidebar ul li a i {
+    margin-right: 15px;
+    font-size: 24px;
+}
+
+/* Add Animations */
+.sidebar ul li a:hover i {
+    animation: icon-bounce 0.5s ease;
+}
+
+@keyframes icon-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+
+        .container {
+            background: linear-gradient(lightblue,blue);
+            margin-left: 240px;
+            padding: 10px;
+            width: calc(100% - 260px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white; /* Adjust color for visibility */
+        }
+        section {
+            margin-bottom: 80px;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 25px;
+            border-radius: 20px;
+            border: solid 2px blue;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table th, table td {
+            border: 1px solid blue;
+            padding: 8px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f4f4f4;
+        }
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: solid 1px blue;
+            background-color: rgb(221, 245, 253);
+        }
+        button {
+            background-color:teal;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 2px 2px 5px gray;
+        }
+        button:hover {
+            background-color: #575757;
+        }
+        .flash-messages {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="#create-club"><i class="fas fa-plus-circle"></i> Create Club</a></li>
+            <li><a href="#register-leader"><i class="fas fa-user-plus"></i> Register Leader</a></li>
+            <li><a href="#manage-clubs"><i class="fas fa-cogs"></i> Manage Clubs</a></li>
+            <li><a href="#manage-events"><i class="fas fa-calendar-alt"></i> Manage Events</a></li>
+            <li><a href="#manage-users"><i class="fas fa-users"></i> Manage Users</a></li>
+        </ul>
+    </div>
+    
+    
+    <div class="container" >
+        <div style="margin-left: 30px;margin-right: 30px;">
+        <h1 style="color: black;">Admin Dashboard</h1>
+        <center><p>Welcome to Admin dashboard</p>
+        </center>
+
+
+        <!-- Create Club -->
+        <section id="create-club" style="height: 500px;">
+            <h2>Create Club</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="create_club" >
+                <div>
+                    <label for="club_name">Club Name</label>
+                    <input type="text" id="club_name" name="club_name" required>
+                </div>
+                <div>
+                    <label for="club_description">Description</label>
+                    <textarea style="height: 150px;" id="club_description" name="club_description" rows="3" required></textarea>
+                </div>
+                <div>
+                    <label for="leader_id">Assign Leader</label>
+                    <select id="leader_id" name="leader_id" required>
+                        <option value="">Select Leader</option>
+                        {% for leader in club_leaders %}
+                            <option value="{{ leader.id }}">{{ leader.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Create Club</button>
+            </form>
+        </section>
+
+        <!-- Register Club Leader -->
+        <section id="register-leader" style="margin-bottom: 200px;">
+            <h2>Register Club Leader</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="register_leader">
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Register Leader</button>
+            </form>
+        </section>
+
+        <!-- Manage Clubs -->
+        <section id="manage-clubs" style="margin-top: 400px;">
+            <h2>Manage Clubs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Leader</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for club in clubs %}
+                        <tr>
+                            <td>{{ club.name }}</td>
+                            <td>{{ club.description }}</td>
+                            <td>{{ club.leader.username }}</td>
+                            <td>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="delete_club">
+                                    <input type="hidden" name="club_id" value="{{ club.id }}">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Manage Events -->
+        <section id="manage-events" style="height: 500px; margin-top: 200px;">
+            <h2>Manage Events</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Club</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.name }}</td>
+                            <td>{{ event.club.name }}</td>
+                            <td>{{ event.description }}</td>
+                            <td>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="delete_event">
+                                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+
+        <!-- Manage Users -->
+        <section id="manage-users" style="margin-top: 100px;">
+            <h2>Manage Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="update_role">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    <select name="new_role">
+                                        <option value="student" {% if user.role == 'student' %}selected{% endif %}>Student</option>
+                                        <option value="club_leader" {% if user.role == 'club_leader' %}selected{% endif %}>Club Leader</option>
+                                    </select>
+                                    <button type="submit">Update Role</button>
+                                </form>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="delete_user">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</div>
+</html>

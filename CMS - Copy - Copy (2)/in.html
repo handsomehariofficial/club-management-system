@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsd</title>
+</head>
+<body>
+    <p id="p">____</p>
+    <p id="j">-----</p>
+    <input id="ii" type="number" placeholder="enter anything....." style="background-color: aqua;">
+    <button onclick="fo">asdfghqwertyui</button>
+    <script>
+        function fo(){
+        let ui = document.getElementById("p");
+        let mo = document.getElementById("j");
+        let ii = document.getElementById("ii").value;
+        let rn = Math.floor(Math.random()*10)+1;
+        if(ii==rn)
+    {
+        mo.innerText="true";
+    }else{
+        mo.innerText="false";
+        ui.innerText="false";
+
+    }
+}
+    </script>
+
+</body>
+</html>

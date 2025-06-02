@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Club Management</title>
+    <link rel="icon" href="static/pics/k1.jpg">
+    <style>
+/* General Styles */
+body {
+    background-image: url(static/pics/wi.jpg);
+    background-size: contain;
+    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+#gen h1 {font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 3.25rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: linear-gradient(90deg,red, rgb(80, 217, 251),#ffcc00, #ff0000, #ff1313);
+      background-size: 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: colorChange 4s linear infinite;
+    }
+
+#gen h3{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ff0000, #00ff3c, #3313ff);
+      background-size: 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: colorChange 8s linear infinite;
+    }
+
+@keyframes colorChange {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+#gen{
+    text-align: center;
+    height: 670px;
+    margin-left: 100px;
+}
+
+
+
+/* Call-to-action Button */
+.cta-btn {
+    margin-right: 50px;
+    margin-top: 160px;
+    display: inline-block;
+    color: rgb(255, 0, 0);
+    padding: 12px 25px;
+    text-decoration: none;
+    font-weight: bold;
+    border: solid 1px red;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    box-shadow: 2px 2px 10px rgb(33, 32, 32);
+}
+
+.cta-btn:hover {
+    background-color: #00ff11;
+    box-shadow: 2px 10px 10px rgb(9, 9, 9);
+    transition: 0.5s;
+}
+
+
+
+    footer {
+      margin-top: 20px;
+      background: #333;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    footer a {
+      color: #ff6f61;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+/* Search Bar */
+.search-bar {
+    display: block;
+    padding: 10px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    margin-left: 200px;
+    border: 2px solid #06ff01;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #06ff01;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.2rem;
+    }
+
+    main h2 {
+        font-size: 2rem;
+    }
+
+    ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .cta-btn {
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+    }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95); /* Move up and slightly scaled down */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* Reset position and scale */
+  }
+}
+header a{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: x-large;
+    font-weight: bold;
+    margin-right: 40px;
+    text-decoration: none;
+    background: linear-gradient( rgb(249, 97, 97), rgb(255, 255, 255));
+        background-size: 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+
+}
+.text-jump {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient( #d2ff1d, #0460ff);
+        background-size: 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 2px rgb(255, 0, 0);           
+            gap: 0.5rem;
+          }
+      
+          .text-jump span {
+            display: inline-block;
+            animation: jump 1s ease-in-out infinite;
+          }
+      
+          /* Add delay for each letter */
+          .text-jump span:nth-child(1) { animation-delay: 0s; }
+          .text-jump span:nth-child(2) { animation-delay: 0.1s; }
+          .text-jump span:nth-child(3) { animation-delay: 0.2s; }
+          .text-jump span:nth-child(4) { animation-delay: 0.3s; }
+          .text-jump span:nth-child(5) { animation-delay: 0.4s; }
+          .text-jump span:nth-child(6) { animation-delay: 0.5s; }
+      
+          /* Keyframes for jumping effect */
+          @keyframes jump {
+            0%, 100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-20px);
+            }
+          }
+    .text-bounce {
+      font-weight: bold;
+      color: #4e54c8;
+      animation: moveUpDown 2s ease-in-out infinite;
+    }
+
+    @keyframes moveUpDown {
+      0%, 100% {
+        transform: translateY(0); /* Original position */
+      }
+      50% {
+        transform: translateY(-20px); /* Move up */
+      }
+    }
+
+
+    </style>
+</head>
+<body>
+    <header style="padding-left: 80px;">
+      <img src="static/pics/k1.jpg" style="width: 80px;height: 80px;margin-top: 30px">
+        <div style="width: 300px;display: inline-flex;">
+        <h1 style="font-family: 'Times New Roman', Times, serif;   ;
+        background: linear-gradient( #ff2525,rgb(255, 255, 255));
+        background-size: 200%;
+        font-weight: bold;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;">
+        CLUB MANAGEMENT</h1>
+        </div>
+        <a href="" style="margin-left: 600px;">HOME</a>
+        <a href="{{ url_for('register') }}">LOGIN</a>
+        <a>ABOUT</a>
+        
+    </header>
+    <div id="gen">
+        <h1 style="margin-top: 50px;">VELALAR COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>      
+        <h3 style="margin-left: 60px;">Empowering students through campus clubs and Events</h3>
+        <a href="{{ url_for('register') }}" class="cta-btn">Join a Club Today!</a>
+
+        <div class="text-jump" style="margin-top: 200px;">
+          <!-- Wrap each letter in a span -->
+           <a href="#s1">
+          <span>Here</span>
+          <span>tO</span>
+          <span>Explore more</span>
+          <span>!</span>
+           </a>
+        </div>
+    </div>
+    <section id="s1">
+    <main>
+        <h2 style="display: inline; margin-left: 200px;    background: linear-gradient( #ff0000, #0460ff);
+        background-size: 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;" class="text-bounce">Explore Our Clubs</h2> 
+
+
+            <!-- Search Bar -->
+<div style="text-align: center;">
+    <input style="width: 600px;"  type="text" list="location-list" id="clubSearch" class="search-bar" placeholder="Search clubs..." onkeyup="filterClubs()">
+    <datalist id="location-list">
+        <option value="Coding"></option>
+        <option value="CSI"></option>
+        <option value="Cultural"></option>
+        <option value="dance"></option>
+</div>
+<div class="container mt-5">
+  <div class="row">
+      {% for club in clubs %}
+      <div class="col-md-4 mb-4">
+          <div class="card h-100" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#clubModal{{ club.id }}">
+              <img src="{{ url_for('static', filename='uploads/' + club.cover_photo) if club.cover_photo else url_for('static', filename='default_cover.jpg') }}" 
+                   class="card-img-top" 
+                   alt="{{ club.name }}">
+              <div class="card-body">
+                  <h5 class="card-title">{{ club.name }}</h5>
+                  <p class="card-text">Led by: {{ club.leader.username }}</p>
+              </div>
+          </div>
+      </div>
+
+      <!-- Club Details Modal -->
+      <div class="modal fade" id="clubModal{{ club.id }}" tabindex="-1" aria-labelledby="clubModalLabel{{ club.id }}" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="clubModalLabel{{ club.id }}">{{ club.name }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="text-center mb-4">
+                          <img src="{{ url_for('static', filename='uploads/' + club.cover_photo) if club.cover_photo else url_for('static', filename='default_cover.jpg') }}" 
+                               class="img-fluid rounded" 
+                               alt="{{ club.name }}">
+                      </div>
+                      <h5>Leader: {{ club.leader.username }}</h5>
+                      <p>{{ club.description }}</p>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+</section>
+
+  <footer>
+    <p>&copy; 2025 College Club Management System. All rights reserved. | 
+      <a href="#privacy">Privacy Policy</a> | 
+      <a href="#contact">Contact Us</a>
+    </p>
+  </footer>
+    <script>
+         // Function to toggle the visibility of club details
+    function toggleDetails(card) {
+        var details = card.querySelector('.card-details');
+        var closeButton = card.querySelector('.close-btn');
+
+        if (details.style.display === 'none' || details.style.display === '') {
+            details.style.display = 'block';
+            card.style.transform = 'scale(1.1)';
+            card.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.2)';
+            closeButton.style.display = 'block';
+        } else {
+            details.style.display = 'none';
+            card.style.transform = 'scale(1)';
+            card.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.1)';
+            closeButton.style.display = 'none';
+        }
+    }
+
+    // Function to close the card details when the close button is clicked
+    function closeCard(closeButton) {
+        var card = closeButton.closest('.club-card');
+        var details = card.querySelector('.card-details');
+        
+        details.style.display = 'none';
+        card.style.transform = 'scale(1)';
+        card.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.1)';
+        closeButton.style.display = 'none';
+    }
+  // Select all club cards
+  const cards = document.querySelectorAll('.club-card');
+
+cards.forEach(card => {
+    const details = card.querySelector('.card-details');
+    const closeButton = card.querySelector('.close-btn');
+
+    // Expand card on click
+    card.addEventListener('click', () => {
+        card.style.transform = 'scale(1.1)';
+        card.style.zIndex = '1000';
+        details.style.display = 'flex';
+        closeButton.style.display = 'block';
+    });
+
+    // Close card
+    closeButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent click event from re-triggering
+        card.style.transform = 'scale(1)';
+        card.style.zIndex = 'auto';
+        details.style.display = 'none';
+        closeButton.style.display = 'none';
+    });
+});
+/* Search Functionality */
+function filterClubs() {
+    let input = document.getElementById('clubSearch').value.toLowerCase();
+    let clubs = document.querySelectorAll('.club-card');
+
+    clubs.forEach(function(club) {
+        let clubName = club.querySelector('h3').innerText.toLowerCase();
+        let clubDescription = club.querySelector('.card-back p').innerText.toLowerCase();
+        
+        if (clubName.includes(input) || clubDescription.includes(input)) {
+            club.style.display = "inline-block";
+        } else {
+            club.style.display = "none";
+        }
+    });
+}
+
+/* Change Shadow Functionality (Example from Previous Request) */
+function changeShadow(elementId, shadow) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.style.boxShadow = shadow;
+    }
+}
+    </script>
+</body>
+</html>

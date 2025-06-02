@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Register</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('static/pics/nt1.jpg'); /* Set your background image here */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header {
+            color: black;
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 10px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 400px;
+            width: 90%;
+            margin: 20px ;
+            margin-right: 400px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        main h2 {
+            text-align: center;
+            color: rgb(0, 255, 0);
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 90%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            border-color: lightgreen;
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        button {
+            width: 98%;
+            background-color: rgb(0, 255, 0);
+            color: #fff;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: lightgreen;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .form-link a {
+            color: rgb(0, 191, 255);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Error and Success Messages */
+        .flash-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .flash-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .flash-message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                max-width: 90%;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="width: 500px;margin-left: 50px;">
+        <h2>
+            Join a club to grow your skills, meet new people, and make the most of your college experience.
+        </h2>
+        </div>
+    </header>
+
+    <main>
+        {% if request.endpoint == 'login' %}
+            <h2>Login</h2>
+            <form action="{{ url_for('login') }}" method="POST">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <div class="form-link">
+                <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
+            </div>
+
+        {% elif request.endpoint == 'register' %}
+            <h2>Register</h2>
+            <form action="{{ url_for('register') }}" method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+            <div class="form-link">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>

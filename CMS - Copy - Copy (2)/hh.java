@@ -29,9 +29,3 @@ break;        }
             {
                 System.out.println("second smallest "+s[s.length-2]);
             }
-continue;
-        }
-
-        
-    }
-}

@@ -1,6 +1,6 @@
 import java.util.Arrays;
 class largest{
-    i
+    
     }
     public static void main(String args[])
     {

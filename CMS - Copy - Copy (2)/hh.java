@@ -127,5 +127,6 @@ class largest{
         System.out.println(l);
         
         sop
-            for (int j=0;j<=2;i++){
+            for (int j=0;j<=2;i++)
         
+

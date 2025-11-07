@@ -128,7 +128,4 @@ class largest{
         
         sop
             for (int j=0;j<=2;i++){
-        System.err.print("*");
-
-
-
+        

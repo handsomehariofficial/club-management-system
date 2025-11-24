@@ -128,8 +128,8 @@ class largest{
         
         sop
             for (int j=0;j<=2;i++)
-        soap vaanga
-varathinga
+        soap vaanga vaanga
+
 
 
 
